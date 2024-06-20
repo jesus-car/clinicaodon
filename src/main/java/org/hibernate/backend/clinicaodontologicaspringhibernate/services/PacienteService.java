@@ -1,6 +1,7 @@
 package org.hibernate.backend.clinicaodontologicaspringhibernate.services;
 
 import org.hibernate.backend.clinicaodontologicaspringhibernate.entities.Paciente;
+import org.hibernate.backend.clinicaodontologicaspringhibernate.exceptions.PacienteEqualEmailException;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.exceptions.PacienteNotFoundException;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.repositories.PacienteRepository;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,17 @@ public class PacienteService {
     public Paciente savePaciente(Paciente paciente) {
         Optional<Paciente> pacienteOptional = pacienteRepository.findByEmail(paciente.getEmail());
         if (pacienteOptional.isPresent()) {
-            throw new PacienteNotFoundException("El email ya se encuentra registrado", paciente.getId());
+            throw new PacienteEqualEmailException("El email ya se encuentra registrado", paciente.getEmail());
         }
         return pacienteRepository.save(paciente);
     }
 
+    @Transactional(readOnly = true)
     public Iterable<Paciente> findAll() {
         return pacienteRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Paciente> findById(Long id) {
         Optional<Paciente> paciente = pacienteRepository.findById(id);
         if (paciente.isEmpty()) {
@@ -39,6 +42,7 @@ public class PacienteService {
         return paciente;
     }
 
+    @Transactional(readOnly = true)
     public Optional<Paciente> findByEmail(String email) {
         Optional<Paciente> paciente = pacienteRepository.findByEmail(email);
         if (paciente.isEmpty()) {
@@ -56,7 +60,7 @@ public class PacienteService {
         if(!paciente.getEmail().equals(pacienteOptional.get().getEmail())){
             Optional<Paciente> pacienteOptionalEmail = pacienteRepository.findByEmail(paciente.getEmail());
             if (pacienteOptionalEmail.isPresent()) {
-                throw new PacienteNotFoundException("El email ya se encuentra registrado", paciente.getId());
+                throw new PacienteEqualEmailException("El email ya se encuentra registrado", paciente.getEmail());
             }
         }
         paciente.setId(id);

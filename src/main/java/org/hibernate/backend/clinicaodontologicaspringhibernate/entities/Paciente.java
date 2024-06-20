@@ -26,6 +26,7 @@ public class Paciente {
     private String apellido;
 
     @NotNull
+    @Column(unique = true, nullable = false)
     private Integer cedula;
 
     @NotNull

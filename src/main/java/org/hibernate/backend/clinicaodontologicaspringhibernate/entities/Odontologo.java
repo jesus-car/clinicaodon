@@ -1,6 +1,7 @@
 package org.hibernate.backend.clinicaodontologicaspringhibernate.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
@@ -14,7 +15,11 @@ public class Odontologo {
 
     @Column(unique = true)
     private String matricula;
+
+    @NotBlank
     private String nombre;
+
+    @NotBlank
     private String apellido;
 
 }

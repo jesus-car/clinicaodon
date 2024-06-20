@@ -29,7 +29,7 @@ public class PacienteController {
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actualizarPaciente(@PathVariable Long id, @RequestBody Paciente paciente) {
+    public ResponseEntity<?> actualizarPaciente(@PathVariable Long id, @Valid @RequestBody Paciente paciente) {
         return ResponseEntity.ok(pacienteService.actualizarPaciente(id, paciente));
     }
 

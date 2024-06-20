@@ -3,6 +3,8 @@ package org.hibernate.backend.clinicaodontologicaspringhibernate.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Table(name = "turnos")
@@ -12,11 +14,13 @@ public class Turno {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        private String fecha;
+        private LocalDate fecha;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @ManyToOne
+        @JoinColumn(name = "paciente_id",referencedColumnName = "id")
         private Paciente paciente;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @ManyToOne
+        @JoinColumn(name = "odontologo_id", referencedColumnName = "id")
         private Odontologo odontologo;
 }

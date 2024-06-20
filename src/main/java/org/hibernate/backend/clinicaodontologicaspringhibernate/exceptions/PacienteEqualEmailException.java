@@ -5,12 +5,11 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PacienteNotFoundException extends RuntimeException{
+public class PacienteEqualEmailException extends RuntimeException{
+    private String email;
 
-    private Long id;
-
-    public PacienteNotFoundException(String message, Long id) {
+    public PacienteEqualEmailException(String message, String email) {
         super(message);
-        this.id = id;
+        this.email = email;
     }
 }
