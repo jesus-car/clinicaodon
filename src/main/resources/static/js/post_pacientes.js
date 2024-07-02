@@ -1,7 +1,5 @@
 window.addEventListener('load', function () {
 
-    //Al cargar la pagina buscamos y obtenemos el formulario donde estarán
-    //los datos que el usuario cargará de la nueva pelicula
     const formulario = document.querySelector('#add_new_paciente');
 
     //Ante un submit del formulario se ejecutará la siguiente funcion
@@ -20,7 +18,6 @@ window.addEventListener('load', function () {
                     provincia: document.querySelector('#provincia').value,
                          },
             email: document.querySelector('#email').value
-
         };
         //invocamos utilizando la función fetch la API peliculas con el método POST que guardará
         //la película que enviaremos en formato JSON
@@ -36,8 +33,6 @@ window.addEventListener('load', function () {
         fetch(url, settings)
             .then(response => response.json())
             .then(data => {
-                 //Si no hay ningun error se muestra un mensaje diciendo que la pelicula
-                 //se agrego bien
                  let successAlert = '<div class="alert alert-success alert-dismissible">' +
                      '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                      '<strong></strong> Paciente agregado </div>'

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class OdontologoService {
+public class OdontologoService implements IEmployeeService{
 
     @Autowired
     private OdontologoRepository odontologoRepository;
@@ -27,6 +27,11 @@ public class OdontologoService {
     @Transactional(readOnly = true)
     public Optional<Odontologo> buscarPorId(Long id){
         return odontologoRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existePorNombre(String nombre){
+        return odontologoRepository.existsByNombre(nombre);
     }
 
     @Transactional(readOnly = true)

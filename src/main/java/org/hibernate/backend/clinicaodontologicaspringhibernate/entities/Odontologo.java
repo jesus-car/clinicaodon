@@ -3,6 +3,8 @@ package org.hibernate.backend.clinicaodontologicaspringhibernate.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.hibernate.backend.clinicaodontologicaspringhibernate.services.OdontologoService;
+import org.hibernate.backend.clinicaodontologicaspringhibernate.validation.ExistByName;
 
 @Entity
 @Data
@@ -17,6 +19,7 @@ public class Odontologo {
     private String matricula;
 
     @NotBlank
+    @ExistByName(entityService = OdontologoService.class)
     private String nombre;
 
     @NotBlank

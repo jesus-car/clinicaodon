@@ -10,17 +10,17 @@ import java.time.LocalDate;
 @Table(name = "turnos")
 public class Turno {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private LocalDate fecha;
+    private LocalDate fecha;
 
-        @ManyToOne
-        @JoinColumn(name = "paciente_id",referencedColumnName = "id")
-        private Paciente paciente;
+    @ManyToOne
+    @JoinColumn(name = "paciente_id", referencedColumnName = "id")
+    private Paciente paciente;
 
-        @ManyToOne
-        @JoinColumn(name = "odontologo_id", referencedColumnName = "id")
-        private Odontologo odontologo;
+    @ManyToOne
+    @JoinColumn(name = "odontologo_id", referencedColumnName = "id")
+    private Odontologo odontologo;
 }

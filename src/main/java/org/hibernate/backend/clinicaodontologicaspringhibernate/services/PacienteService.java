@@ -1,26 +1,25 @@
 package org.hibernate.backend.clinicaodontologicaspringhibernate.services;
 
+import org.hibernate.backend.clinicaodontologicaspringhibernate.entities.Odontologo;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.entities.Paciente;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.exceptions.PacienteEqualEmailException;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.exceptions.PacienteNotFoundException;
 import org.hibernate.backend.clinicaodontologicaspringhibernate.repositories.PacienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-public class PacienteService {
+public class PacienteService implements IEmployeeService{
 
+    @Autowired
     private PacienteRepository pacienteRepository;
-
-    public PacienteService(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
-    }
 
     @Transactional
     // guardar paciente, actualizar paciente, buscar por id, buscar por email, buscar todos, borrar por id
-    public Paciente savePaciente(Paciente paciente) {
+    public Paciente guardarPaciente(Paciente paciente) {
         Optional<Paciente> pacienteOptional = pacienteRepository.findByEmail(paciente.getEmail());
         if (pacienteOptional.isPresent()) {
             throw new PacienteEqualEmailException("El email ya se encuentra registrado", paciente.getEmail());
@@ -29,12 +28,12 @@ public class PacienteService {
     }
 
     @Transactional(readOnly = true)
-    public Iterable<Paciente> findAll() {
+    public Iterable<Paciente> listarTodos() {
         return pacienteRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Optional<Paciente> findById(Long id) {
+    public Optional<Paciente> buscarPorId(Long id) {
         Optional<Paciente> paciente = pacienteRepository.findById(id);
         if (paciente.isEmpty()) {
             throw new PacienteNotFoundException("Paciente no encontrado", id);
@@ -43,7 +42,12 @@ public class PacienteService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Paciente> findByEmail(String email) {
+    public boolean existePorNombre(String nombre){
+        return pacienteRepository.existsByNombre(nombre);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Paciente> buscarPorEmail(String email) {
         Optional<Paciente> paciente = pacienteRepository.findByEmail(email);
         if (paciente.isEmpty()) {
             throw new PacienteNotFoundException("Paciente no encontrado", 0L);
@@ -68,12 +72,22 @@ public class PacienteService {
     }
 
     @Transactional
-    public Optional<Paciente> deleteById(Long id) {
+    public Optional<Paciente> eliminarPorId(Long id) {
         Optional<Paciente> paciente = pacienteRepository.findById(id);
         if (paciente.isEmpty()) {
             throw new PacienteNotFoundException("Paciente no encontrado", id);
         }
         pacienteRepository.deleteById(id);
         return paciente;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existePorEmail(String email){
+        return pacienteRepository.existsByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existePorCedula(Integer cedula){
+        return pacienteRepository.existsByCedula(cedula);
     }
 }

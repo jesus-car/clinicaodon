@@ -23,14 +23,14 @@ public class TurnoService {
     @Autowired
     private OdontologoService odontologoService;
 
-    public Turno registrarTurno(Turno turno){
-        Optional<Paciente> paciente = pacienteService.findById(turno.getPaciente().getId());
+    public TurnoDTO registrarTurno(Turno turno){
+        Optional<Paciente> paciente = pacienteService.buscarPorId(turno.getPaciente().getId());
         Optional<Odontologo> odontologo = odontologoService.buscarPorId(turno.getOdontologo().getId());
 
         if(paciente.isPresent() && odontologo.isPresent()){
             turno.setPaciente(paciente.get());
             turno.setOdontologo(odontologo.get());
-            return turnoRepository.save(turno);
+            return turnoAturnoDTO(turnoRepository.save(turno));
         }else{
             throw new RuntimeException("No se pudo registrar el turno");
         }
@@ -57,6 +57,7 @@ public class TurnoService {
     }
 
     public TurnoDTO turnoAturnoDTO(Turno turno){
+
         TurnoDTO turnoDTO= new TurnoDTO();
         turnoDTO.setId(turno.getId());
         turnoDTO.setFecha(turno.getFecha());
